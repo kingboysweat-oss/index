@@ -1,0 +1,675 @@
+\<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Happy Birthday Amna! 🌙❤️</title>
+  <!-- Confetti library -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+  <style>
+    :root {
+      --bg: #f5ebe0;
+      --primary: #8b0000;
+      --secondary: #b22222;
+      --paper: #fdf8f0;
+      --text: #4a2c11;
+      --gold: #d4af37;
+      --cake-frosting: #ffe5ec;
+      --cake-layer: #ffb3c1;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg);
+      background-image: radial-gradient(#e0d3c1 1px, transparent 1px);
+      background-size: 20px 20px;
+      font-family: 'Georgia', 'Times New Roman', serif;
+      color: var(--text);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+      padding: 20px 15px;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 600px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
+    }
+
+    header {
+      text-align: center;
+      margin-top: 5px;
+    }
+
+    h1 {
+      font-size: 2.1rem;
+      color: var(--primary);
+      margin-bottom: 4px;
+    }
+
+    .subtitle {
+      font-size: 1rem;
+      color: #6e473b;
+      font-style: italic;
+    }
+
+    /* Music Button */
+    .music-btn {
+      background-color: var(--primary);
+      color: white;
+      border: 2px solid var(--gold);
+      padding: 8px 20px;
+      border-radius: 20px;
+      font-size: 0.9rem;
+      font-family: inherit;
+      cursor: pointer;
+      margin-top: 10px;
+      transition: transform 0.2s, background 0.2s;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      box-shadow: 0 4px 10px rgba(139,0,0,0.15);
+    }
+
+    .music-btn:hover {
+      background-color: #660000;
+      transform: scale(1.03);
+    }
+
+    /* --- Multi-Page System --- */
+    .page {
+      display: none;
+      width: 100%;
+      animation: fadeIn 0.5s ease-in-out;
+    }
+
+    .page.active {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      align-items: center;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .section-card {
+      background: var(--paper);
+      border: 1px solid #dcd0c0;
+      border-radius: 16px;
+      padding: 25px 20px;
+      width: 100%;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.07);
+      text-align: center;
+    }
+
+    /* Navigation Controls */
+    .nav-controls {
+      display: flex;
+      justify-content: space-between;
+      width: 100%;
+      gap: 15px;
+      margin-top: 5px;
+    }
+
+    .btn-nav {
+      background-color: #6e473b;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 25px;
+      font-size: 0.95rem;
+      font-family: inherit;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .btn-nav:hover {
+      background-color: var(--primary);
+    }
+
+    .page-indicator {
+      font-size: 0.9rem;
+      color: #6e473b;
+      font-weight: bold;
+      margin-top: 5px;
+    }
+
+    /* --- PAGE 1: CAKE --- */
+    .cake-container {
+      position: relative;
+      margin: 30px auto 15px auto;
+      width: 220px;
+      height: 190px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-end;
+    }
+
+    .candle {
+      position: absolute;
+      top: 0;
+      width: 16px;
+      height: 50px;
+      background: repeating-linear-gradient(45deg, #ff4d6d, #ff4d6d 8px, #ffffff 8px, #ffffff 16px);
+      border-radius: 4px 4px 0 0;
+      cursor: pointer;
+      z-index: 3;
+    }
+
+    .flame {
+      width: 20px;
+      height: 30px;
+      background: radial-gradient(ellipse at bottom, #ffea00 0%, #ff5400 60%, transparent 100%);
+      border-radius: 50% 50% 20% 20%;
+      position: absolute;
+      top: -28px;
+      left: -2px;
+      box-shadow: 0 0 20px #ff9e00;
+      animation: flicker 0.5s infinite alternate;
+      transition: opacity 0.4s ease;
+    }
+
+    .flame.off { display: none; }
+
+    @keyframes flicker {
+      0% { transform: scale(1) rotate(-3deg); }
+      100% { transform: scale(1.12) rotate(3deg); }
+    }
+
+    .cake-tier {
+      width: 100%;
+      border-radius: 12px 12px 0 0;
+      position: relative;
+      box-shadow: inset 0 -5px 0 rgba(0,0,0,0.1);
+    }
+
+    .cake-top {
+      width: 130px;
+      height: 50px;
+      background: var(--cake-frosting);
+      border-bottom: 6px solid #ff758f;
+      z-index: 2;
+    }
+
+    .cake-bottom {
+      width: 190px;
+      height: 65px;
+      background: var(--cake-layer);
+      border-bottom: 8px solid #c9184a;
+      z-index: 1;
+    }
+
+    .plate {
+      width: 220px;
+      height: 14px;
+      background: #e0e0e0;
+      border-radius: 10px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.15);
+    }
+
+    /* --- PAGE 2: POLAROID & REASONS --- */
+    .polaroid {
+      background: #fff;
+      padding: 14px 14px 22px 14px;
+      border-radius: 4px;
+      box-shadow: 0 6px 16px rgba(0,0,0,0.12);
+      width: 100%;
+      max-width: 300px;
+      margin: 0 auto;
+      transform: rotate(-1.5deg);
+    }
+
+    .polaroid-img {
+      width: 100%;
+      border-radius: 2px;
+      display: block;
+      object-fit: cover;
+    }
+
+    .reason-display {
+      min-height: 70px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.05rem;
+      font-style: italic;
+      margin: 15px 0;
+      padding: 15px;
+      background: #f4ece1;
+      border-radius: 8px;
+      color: #4a2c11;
+      line-height: 1.4;
+      border: 1px dashed #c4b49e;
+    }
+
+    .btn-action {
+      background-color: var(--primary);
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 25px;
+      font-size: 1rem;
+      font-family: inherit;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .btn-action:hover { background-color: #660000; }
+
+    /* --- PAGE 3: ENVELOPE & LETTER --- */
+    .envelope-wrapper {
+      position: relative;
+      width: 100%;
+      max-width: 460px;
+      margin: 10px auto;
+      cursor: pointer;
+    }
+
+    .envelope {
+      position: relative;
+      width: 100%;
+      height: 260px;
+      background: #e2d1be;
+      border-radius: 8px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.12);
+      border: 1px solid #c8b49c;
+      overflow: hidden;
+      transition: transform 0.3s;
+    }
+
+    .envelope-flap {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 0;
+      height: 0;
+      border-left: 230px solid transparent;
+      border-right: 230px solid transparent;
+      border-top: 140px solid #d4c1ac;
+      transform-origin: top;
+      transition: transform 0.6s ease, z-index 0.6s;
+      z-index: 4;
+    }
+
+    .stamp-seal {
+      position: absolute;
+      top: 100px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 60px;
+      height: 60px;
+      background: radial-gradient(circle, #a71d1d 0%, #680a0a 100%);
+      border-radius: 50%;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      color: var(--gold);
+      z-index: 5;
+      border: 2px dashed var(--gold);
+      transition: opacity 0.4s ease, transform 0.4s ease;
+    }
+
+    .stamp-moon { font-size: 20px; line-height: 1; }
+    .stamp-text { font-size: 7px; letter-spacing: 1px; font-weight: bold; }
+
+    .letter-content {
+      position: absolute;
+      top: 15px;
+      left: 15px;
+      right: 15px;
+      bottom: 15px;
+      background: var(--paper);
+      border: 1px solid #dcd0c0;
+      border-radius: 6px;
+      padding: 20px 15px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+      z-index: 2;
+      overflow-y: auto;
+      text-align: left;
+      line-height: 1.7;
+      font-size: 1rem;
+      white-space: pre-line;
+      color: #3b200a;
+    }
+
+    .envelope-wrapper.open .envelope-flap {
+      transform: rotateX(180deg);
+      z-index: 1;
+    }
+
+    .envelope-wrapper.open .stamp-seal {
+      opacity: 0;
+      transform: translateX(-50%) scale(0.5);
+      pointer-events: none;
+    }
+
+    .envelope-wrapper.open .envelope {
+      height: auto;
+      min-height: 360px;
+      background: transparent;
+      box-shadow: none;
+      border: none;
+      overflow: visible;
+    }
+
+    .envelope-wrapper.open .letter-content {
+      position: relative;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 10;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.12);
+    }
+
+    /* --- PAGE 4: MULTILINGUAL BOUNCING SPAWNER --- */
+    .spawn-area {
+      position: relative;
+      width: 100%;
+      height: 320px;
+      background: #fdf6ec;
+      border: 2px dashed #dcae96;
+      border-radius: 12px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 15px;
+    }
+
+    .floating-badge {
+      position: absolute;
+      background: white;
+      border: 2px solid var(--primary);
+      color: var(--primary);
+      padding: 10px 16px;
+      border-radius: 20px;
+      font-weight: bold;
+      font-size: 0.95rem;
+      box-shadow: 0 4px 12px rgba(139,0,0,0.15);
+      animation: bounceIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+      pointer-events: none;
+      white-space: nowrap;
+      z-index: 5;
+    }
+
+    @keyframes bounceIn {
+      0% { transform: scale(0) translateY(20px); opacity: 0; }
+      100% { transform: scale(1) translateY(0); opacity: 1; }
+    }
+
+    footer {
+      text-align: center;
+      font-size: 0.85rem;
+      color: #8c6d58;
+      margin: 10px 0;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Audio Element looking for song.mp3 in the same directory -->
+  <audio id="bgMusic" loop preload="auto">
+    <source src="song.mp3" type="audio/mpeg">
+  </audio>
+
+  <div class="container">
+    
+    <!-- Header -->
+    <header>
+      <h1>Happy Birthday Amna! 🌙</h1>
+      <p class="subtitle">Made with all my heart, just for you.</p>
+      
+      <button class="music-btn" id="musicToggle" onclick="toggleMusic()">
+        🎵 Play Song
+      </button>
+    </header>
+
+    <!-- ================= PAGE 1: CAKE ================= -->
+    <div class="page active" id="page1">
+      <div class="section-card">
+        <h3>Make a Wish & Blow Out the Candle! 🎂</h3>
+        <div class="cake-container">
+          <div class="candle" id="candle" onclick="blowCandle()">
+            <div class="flame" id="flame"></div>
+          </div>
+          <div class="cake-tier cake-top"></div>
+          <div class="cake-tier cake-bottom"></div>
+          <div class="plate"></div>
+        </div>
+        <p id="wish-message" style="font-size: 0.95rem; color: #8b0000; font-weight: bold; margin-top: 10px;">
+          Tap the candle flame to blow it out!
+        </p>
+      </div>
+      
+      <div class="nav-controls">
+        <div></div>
+        <button class="btn-nav" onclick="changePage(2)">Next Page ➔</button>
+      </div>
+      <div class="page-indicator">Page 1 of 4</div>
+    </div>
+
+    <!-- ================= PAGE 2: POLAROID & REASONS ================= -->
+    <div class="page" id="page2">
+      <div class="section-card" style="display: flex; flex-direction: column; gap: 15px;">
+        <h3>Your Cuteness 📸</h3>
+        <div class="polaroid">
+          <img class="polaroid-img" src="gf.jpg" alt="Amna">
+        </div>
+        
+        <h3>Why I Love You 💕</h3>
+        <div class="reason-display" id="reasonText">
+          "Click the button below to see!"
+        </div>
+        <button class="btn-action" onclick="nextReason()">Show Me Another Reason</button>
+      </div>
+
+      <div class="nav-controls">
+        <button class="btn-nav" onclick="changePage(1)">⬅ Back</button>
+        <button class="btn-nav" onclick="changePage(3)">Next Page ➔</button>
+      </div>
+      <div class="page-indicator">Page 2 of 4</div>
+    </div>
+
+    <!-- ================= PAGE 3: LETTER & ENVELOPE ================= -->
+    <div class="page" id="page3">
+      <div class="section-card">
+        <h3>A Letter For You 💌</h3>
+        <p style="font-size: 0.85rem; color: #8b0000; font-style: italic; margin-bottom: 8px;" id="envelopeHint">
+          Tap the wax seal to open your letter!
+        </p>
+        
+        <div class="envelope-wrapper" id="envelopeWrapper" onclick="openEnvelope()">
+          <div class="envelope">
+            <div class="envelope-flap"></div>
+            <div class="stamp-seal">
+              <div class="stamp-moon">🌙</div>
+              <div class="stamp-text">OPEN</div>
+            </div>
+            <div class="letter-content">
+Oohh my Amna,
+
+It's been 6 months with you, but it never felt like we were strangers before—it feels like we were best friends all along. 🫠 
+
+I always pray for you to live a long, happy, and healthy life. May God grant all your wishes throughout your life, and I hope I am treating you the way you deserve to be treated. I'm sorry if I have ever done anything to hurt you. 
+
+I am still learning how to love you better every day, and I pray that we complete this beautiful journey together. Thank you for choosing me and bringing me into your life. 
+
+I LOVE YOU, AMNA 💕
+
+Once again, Happy Birthday, my love! ❤️
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="nav-controls">
+        <button class="btn-nav" onclick="changePage(2)">⬅ Back</button>
+        <button class="btn-nav" onclick="changePage(4)">Next Page ➔</button>
+      </div>
+      <div class="page-indicator">Page 3 of 4</div>
+    </div>
+
+    <!-- ================= PAGE 4: MULTILINGUAL SPAWNER ================= -->
+    <div class="page" id="page4">
+      <div class="section-card">
+        <h3>Endless Love 💖</h3>
+        <p style="font-size: 0.9rem; color: #6e473b; margin-bottom: 15px;">Tap the button to spawn love in every language!</p>
+        
+        <div class="spawn-area" id="spawnArea">
+          <p id="spawnPrompt" style="color: #b22222; font-style: italic;">Tap the button below 👇</p>
+        </div>
+        
+        <button class="btn-action" style="margin-top: 15px;" onclick="spawnLove()">Spawn Love ❤️</button>
+      </div>
+
+      <div class="nav-controls">
+        <button class="btn-nav" onclick="changePage(3)">⬅ Back</button>
+        <div></div>
+      </div>
+      <div class="page-indicator">Page 4 of 4</div>
+    </div>
+
+    <footer>
+      Forever & Always ❤️
+    </footer>
+
+  </div>
+
+  <script>
+    // --- Audio System (40% Volume) ---
+    let isPlaying = false;
+    const bgMusic = document.getElementById('bgMusic');
+    const musicBtn = document.getElementById('musicToggle');
+
+    bgMusic.volume = 0.4;
+
+    function toggleMusic() {
+      if (isPlaying) {
+        bgMusic.pause();
+        musicBtn.innerHTML = '🎵 Play Birthday Song';
+        isPlaying = false;
+      } else {
+        bgMusic.play().then(() => {
+          musicBtn.innerHTML = '⏸️ Pause Song';
+          isPlaying = true;
+        }).catch(err => {
+          alert("Make sure an audio file named 'song.mp3' is saved in the same folder as this HTML file!");
+        });
+      }
+    }
+
+    // --- Page Navigation ---
+    function changePage(pageNum) {
+      document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+      document.getElementById('page' + pageNum).classList.add('active');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // --- Page 1: Candle Blow ---
+    let candleBlown = false;
+    function blowCandle() {
+      if (candleBlown) return;
+      const flame = document.getElementById('flame');
+      const wishMsg = document.getElementById('wish-message');
+
+      flame.classList.add('off');
+      wishMsg.innerText = "✨ May all your wishes come true, my love! ✨";
+      candleBlown = true;
+
+      if (!isPlaying) {
+        toggleMusic();
+      }
+
+      if (typeof confetti === 'function') {
+        confetti({ particleCount: 120, spread: 80, origin: { y: 0.6 } });
+      }
+    }
+
+    // --- Page 2: Custom Reasons ---
+    const reasons = [
+      "1. You treat me like I am one of you.",
+      "2. You're worth of all pain, I could wait.",
+      "3. You are MI ALMA, MY MOON, قمري, inde Chandran, yen nilavu...",
+      "4. You are naturally funny.",
+      "5. You are warm and affectionate.",
+      "6. You are my home.",
+      "7. You are my favorite person.",
+      "8. You are the spark in my life.",
+      "9. You are my happy place.",
+      "10. You are my greatest adventure.",
+      "11. You are my dream come true.",
+      "12. You are the reason I smile.",
+      "13. You are my missing piece",
+      "∞ its infiniti and beyond to explain reasons that I love you"]
+    let currentIndex = 0;
+    function nextReason() {
+      document.getElementById('reasonText').innerText = reasons[currentIndex];
+      currentIndex = (currentIndex + 1) % reasons.length;
+    }
+
+    // --- Page 3: Open Envelope ---
+    function openEnvelope() {
+      const wrapper = document.getElementById('envelopeWrapper');
+      const hint = document.getElementById('envelopeHint');
+      if (!wrapper.classList.contains('open')) {
+        wrapper.classList.add('open');
+        hint.innerText = "Scroll inside the letter to read ✨";
+      }
+    }
+
+    // --- Page 4: Multilingual Spawner ---
+    const lovePhrases = [
+      "I love you Amna ❤️",
+      "Te quiero Amna 💖",
+      "أنا أحب آمنا 🌹",
+      "Ich liebe dich Amna ✨",
+      "ഞാൻ നിന്നെ സ്നേഹിക്കുന്നു Amna 💫",
+      "मैं तुमसे प्यार करता हूँ अमना 💕"
+    ];
+
+    function spawnLove() {
+      const spawnArea = document.getElementById('spawnArea');
+      const prompt = document.getElementById('spawnPrompt');
+      if (prompt) prompt.style.display = 'none';
+
+      const randomPhrase = lovePhrases[Math.floor(Math.random() * lovePhrases.length)];
+      
+      const badge = document.createElement('div');
+      badge.className = 'floating-badge';
+      badge.innerText = randomPhrase;
+
+      const maxX = spawnArea.clientWidth - 180;
+      const maxY = spawnArea.clientHeight - 60;
+      const randomX = Math.max(10, Math.floor(Math.random() * maxX));
+      const randomY = Math.max(10, Math.floor(Math.random() * maxY));
+
+      badge.style.left = randomX + 'px';
+      badge.style.top = randomY + 'px';
+
+      spawnArea.appendChild(badge);
+
+      if (spawnArea.children.length > 12) {
+        spawnArea.removeChild(spawnArea.children[1]);
+      }
+    }
+  </script>
+</body>
+</html>
+
